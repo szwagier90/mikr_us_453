@@ -10,7 +10,8 @@ class ResourcesPage(unittest.TestCase):
 
     def test_home_page(self):
         self.browser.get('http://127.0.0.1:8000')
-        self.assertIn('Django', self.browser.title)
+        self.assertIn('Produkty', self.browser.title)
+        self.fail('Finish the test!')
 
 
 if __name__ == '__main__':
