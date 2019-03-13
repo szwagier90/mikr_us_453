@@ -9,4 +9,4 @@ class ResourcesPage(TestCase):
         response = home_page(request)
         self.assertIn('<title>Produkty</title>', response.content.decode('utf-8'))
         self.assertTrue(response.content.startswith(b'<html>'))
-        self.assertTrue(response.content.endswith(b'</html>'))
+        self.assertTrue(response.content.strip().endswith(b'</html>'))
