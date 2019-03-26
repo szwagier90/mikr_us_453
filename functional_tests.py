@@ -8,10 +8,15 @@ class ResourcesPage(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
+        pass
 
     def test_home_page(self):
         self.driver.get(self.localServer)
         self.assertIn('Szwagier Mikrus Server', self.driver.title)
+        resources_link = self.driver.find_element_by_id("id_resources_home")
+        resources_link.click()
+        self.assertIn('Produkty', self.driver.title)
+
         self.fail('Finish the test!')
 
 
