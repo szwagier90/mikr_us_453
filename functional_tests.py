@@ -11,7 +11,7 @@ class ResourcesPage(unittest.TestCase):
 
     def test_home_page(self):
         self.driver.get(self.localServer)
-        self.assertIn('Szwagier Mikrus Server', self.browser.title)
+        self.assertIn('Szwagier Mikrus Server', self.driver.title)
         self.fail('Finish the test!')
 
 
