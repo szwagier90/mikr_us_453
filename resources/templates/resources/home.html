@@ -1,12 +1,19 @@
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>Produkty</title>
+    <meta charset="utf-8">
+    <title>Produkty</title>
 </head>
 <body>
-	<h1>SERWER DEWELOPERSKI</h1>
-	<h3>Publiczna wersja serwisu: <a href="http://uw453.mikr.us">MIKRUS</a></h3>
-	<br />
-	<a href="resources" id="id_resources_home">Produkty</a>
+    <h1>Produkty</h1>
+    <table id="id_table_products">
+        <tr>
+            <th>Produkt</th>
+        </tr>
+    {% for product in all_products %}
+        <tr>
+            <td>{{ product.name }}</td>
+        </tr>
+    {% endfor %}
+    </table>
 </body>
 </html>
