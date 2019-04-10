@@ -1,2 +1,4 @@
-def index():
-	pass
+from django.http import HttpResponse
+
+def index(request):
+	return HttpResponse('<html><title>Szwagier Mikrus Server</title></html>')
