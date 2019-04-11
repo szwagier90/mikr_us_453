@@ -15,5 +15,7 @@
         </tr>
     {% endfor %}
     </table>
+
+    {% if user.is_authenticated %}<a href="/accounts/logout">Wyloguj {{ user.username }}</a>{% endif %}
 </body>
 </html>

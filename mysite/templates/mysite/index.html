@@ -8,5 +8,6 @@
 	<h3>Publiczna wersja serwisu: <a href="http://uw453.mikr.us">MIKRUS</a></h3>
 	<br />
 	<a href="resources" id="id_resources_home">Produkty</a>
+	{% if user.is_authenticated %}<a href="/accounts/logout">Wyloguj {{ user.username }}</a>{% endif %}
 </body>
 </html>
