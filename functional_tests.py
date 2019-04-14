@@ -20,6 +20,11 @@ class ResourcesPage(unittest.TestCase):
 
         resources_page_link = self.driver.find_element_by_id("id_resources_home")
         self.assertEqual("Produkty", resources_page_link.text)
+        resources_page_link.click()
+
+        self.assertEqual("Produkty", self.driver.title)
+        resources_header = self.driver.find_element_by_tag_name("h1").text
+        self.assertEqual("Produkty", resources_header)
 
 
 if __name__ == '__main__':
