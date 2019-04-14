@@ -18,6 +18,9 @@ class ResourcesPage(unittest.TestCase):
 
         self.driver.find_element_by_id("id_dev_srv_link")
 
+        resources_page_link = self.driver.find_element_by_id("id_resources_home")
+        self.assertEqual("Produkty", resources_page_link.text)
+
 
 if __name__ == '__main__':
     unittest.main()
