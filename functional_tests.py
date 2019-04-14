@@ -13,6 +13,11 @@ class ResourcesPage(unittest.TestCase):
         self.driver.get(self.localServer)
         self.assertIn('Szwagier Mikrus Server', self.driver.title)
 
+        home_header = self.driver.find_element_by_tag_name("h1").text
+        self.assertEqual("Szwagier Mikrus Server", home_header)
+
+        self.driver.find_element_by_id("id_dev_srv_link")
+
 
 if __name__ == '__main__':
     unittest.main()
