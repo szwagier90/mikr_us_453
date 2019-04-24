@@ -12,8 +12,7 @@ class ResourcesPage(TestCase):
         self.assertEqual(found.func, home_page)
 
     def test_resources_page_returns_correct_html(self):
-        request = HttpRequest()
-        response = home_page(request)
+        response = self.client.get('/resources/')
 
         expected_content = render_to_string('resources/home.html')
         self.assertEqual(response.content.decode(), expected_content)
