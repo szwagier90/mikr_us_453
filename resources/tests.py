@@ -13,6 +13,4 @@ class ResourcesPage(TestCase):
 
     def test_resources_page_returns_correct_html(self):
         response = self.client.get('/resources/')
-
-        expected_content = render_to_string('resources/home.html')
-        self.assertEqual(response.content.decode(), expected_content)
+        self.assertTemplateUsed(response, "resources/home.html")
