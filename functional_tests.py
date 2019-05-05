@@ -6,6 +6,11 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 class ResourcesPage(unittest.TestCase):
+    def check_for_row_in_products_table(self, product):
+        table = self.driver.find_element_by_id("id_products_table")
+        rows = table.find_elements_by_tag_name("td")
+        self.assertIn(product, [row.text for row in rows])
+
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.localServer = 'http://127.0.0.1:8000'
@@ -40,9 +45,7 @@ class ResourcesPage(unittest.TestCase):
 
         time.sleep(1)
 
-        products_table = self.driver.find_element_by_id("id_products_table")
-        products_rows = products_table.find_elements_by_tag_name("tr")
-        self.assertIn("Pomidory Krojone", [row.text for row in products_rows])
+        self.check_for_row_in_products_table("Pomidory Krojone")
 
 
 if __name__ == '__main__':
