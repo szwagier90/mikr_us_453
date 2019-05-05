@@ -14,3 +14,8 @@ class ResourcesPage(TestCase):
     def test_resources_page_returns_correct_html(self):
         response = self.client.get('/resources/')
         self.assertTemplateUsed(response, "resources/home.html")
+
+    def test_can_save_POST_request(self):
+        response = self.client.post('/resources/', data={'product': 'New Product'})
+        self.assertIn('New Product', response.content.decode())
+        self.assertTemplateUsed(response, "resources/home.html")

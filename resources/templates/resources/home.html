@@ -5,5 +5,17 @@
 </head>
 <body>
     <h1>Produkty</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <input name="product" id="id_input_product" placeholder="Wpisz nazwę produktu">
+    </form>
+    <table id="id_products_table">
+        <tr>
+            <th>Produkty</th>
+        </tr>
+        <tr>
+            <td>{{ product }}</td>
+        </tr>
+    </table>
 </body>
 </html>

@@ -1,5 +1,9 @@
 import unittest
+
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+import time
 
 class ResourcesPage(unittest.TestCase):
     def setUp(self):
@@ -25,6 +29,20 @@ class ResourcesPage(unittest.TestCase):
         self.assertEqual("Produkty", self.driver.title)
         resources_header = self.driver.find_element_by_tag_name("h1").text
         self.assertEqual("Produkty", resources_header)
+
+        product_input = self.driver.find_element_by_id("id_input_product")
+        self.assertEqual(
+            product_input.get_attribute('placeholder'),
+            "Wpisz nazwę produktu",
+        )
+        product_input.send_keys("Pomidory Krojone")
+        product_input.send_keys(Keys.ENTER)
+
+        time.sleep(1)
+
+        products_table = self.driver.find_element_by_id("id_products_table")
+        products_rows = products_table.find_elements_by_tag_name("tr")
+        self.assertIn("Pomidory Krojone", [row.text for row in products_rows])
 
 
 if __name__ == '__main__':
