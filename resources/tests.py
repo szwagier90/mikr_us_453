@@ -27,6 +27,10 @@ class ResourcesPage(TestCase):
         self.assertIn('New Product', response.content.decode())
         self.assertTemplateUsed(response, "resources/home.html")
 
+    def test_save_product_only_when_post(self):
+        self.client.get('/resources/')
+        self.assertEqual(0, Product.objects.count())
+
 
 class ProductModelTest(TestCase):
     def test_saving_and_retrieving_products(self):
