@@ -19,6 +19,11 @@ class ResourcesPage(TestCase):
 
     def test_can_save_POST_request(self):
         response = self.client.post('/resources/', data={'product': 'New Product'})
+
+        self.assertEqual(1, Product.objects.count())
+        new_product = Product.objects.first()
+        self.assertEqual("New Product", new_product.name)
+
         self.assertIn('New Product', response.content.decode())
         self.assertTemplateUsed(response, "resources/home.html")
 
