@@ -18,12 +18,14 @@ class ResourcesPage(TestCase):
         self.assertTemplateUsed(response, "resources/home.html")
 
     def test_can_save_POST_request(self):
-        response = self.client.post('/resources/', data={'product': 'New Product'})
+        self.client.post('/resources/', data={'product': 'New Product'})
 
         self.assertEqual(1, Product.objects.count())
         new_product = Product.objects.first()
         self.assertEqual("New Product", new_product.name)
 
+    def test_redirect_after_POST(self):
+        response = self.client.post('/resources/', data={'product': 'New Product'})
         self.assertEqual(302, response.status_code)
         self.assertEqual('/resources/', response['location'])
 
