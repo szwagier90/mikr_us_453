@@ -24,8 +24,8 @@ class ResourcesPage(TestCase):
         new_product = Product.objects.first()
         self.assertEqual("New Product", new_product.name)
 
-        self.assertIn('New Product', response.content.decode())
-        self.assertTemplateUsed(response, "resources/home.html")
+        self.assertEqual(302, response.status_code)
+        self.assertEqual('/resources/', response['location'])
 
     def test_save_product_only_when_post(self):
         self.client.get('/resources/')
