@@ -13,9 +13,11 @@
         <tr>
             <th>Produkty</th>
         </tr>
+        {% for p in products %}
         <tr>
-            <td>{{ product }}</td>
+            <td>{{ p.name }}</td>
         </tr>
+        {% endfor %}
     </table>
 </body>
 </html>

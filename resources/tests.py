@@ -33,6 +33,15 @@ class ResourcesPage(TestCase):
         self.client.get('/resources/')
         self.assertEqual(0, Product.objects.count())
 
+    def test_show_all_products(self):
+        Product.objects.create(name='Pomidor')
+        Product.objects.create(name='Chleb')
+
+        response = self.client.get('/resources/')
+
+        self.assertIn('Pomidor', response.content.decode())
+        self.assertIn('Chleb', response.content.decode())
+
 
 class ProductModelTest(TestCase):
     def test_saving_and_retrieving_products(self):
