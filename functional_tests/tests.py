@@ -1,11 +1,11 @@
-import unittest
+from django.test import LiveServerTestCase
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 import time
 
-class ResourcesPage(unittest.TestCase):
+class ResourcesPage(LiveServerTestCase):
     def check_for_row_in_products_table(self, product):
         table = self.driver.find_element_by_id("id_products_table")
         rows = table.find_elements_by_tag_name("td")
@@ -13,13 +13,12 @@ class ResourcesPage(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Firefox()
-        self.localServer = 'http://127.0.0.1:8000'
 
     def tearDown(self):
         self.driver.quit()
 
     def test_home_page(self):
-        self.driver.get(self.localServer)
+        self.driver.get(self.live_server_url)
         self.assertIn('Szwagier Mikrus Server', self.driver.title)
 
         home_header = self.driver.find_element_by_tag_name("h1").text
@@ -59,7 +58,3 @@ class ResourcesPage(unittest.TestCase):
 
         self.check_for_row_in_products_table("Pomidory Krojone")
         self.check_for_row_in_products_table("Banan")
-
-
-if __name__ == '__main__':
-    unittest.main()
