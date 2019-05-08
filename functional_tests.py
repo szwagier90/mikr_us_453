@@ -47,6 +47,19 @@ class ResourcesPage(unittest.TestCase):
 
         self.check_for_row_in_products_table("Pomidory Krojone")
 
+        product_input = self.driver.find_element_by_id("id_input_product")
+        self.assertEqual(
+            product_input.get_attribute('placeholder'),
+            "Wpisz nazwę produktu",
+        )
+        product_input.send_keys("Banan")
+        product_input.send_keys(Keys.ENTER)
+
+        time.sleep(1)
+
+        self.check_for_row_in_products_table("Pomidory Krojone")
+        self.check_for_row_in_products_table("Banan")
+
 
 if __name__ == '__main__':
     unittest.main()
