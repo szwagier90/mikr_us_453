@@ -1,15 +1,26 @@
 from django.test import LiveServerTestCase
 
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 
 import time
 
+MAX_WAIT = 10
+
 class ResourcesPage(LiveServerTestCase):
-    def check_for_row_in_products_table(self, product):
-        table = self.driver.find_element_by_id("id_products_table")
-        rows = table.find_elements_by_tag_name("td")
-        self.assertIn(product, [row.text for row in rows])
+    def wait_for_row_in_products_table(self, product):
+        start_time = time.time()
+        while True:
+            try:
+                table = self.driver.find_element_by_id("id_products_table")
+                rows = table.find_elements_by_tag_name("td")
+                self.assertIn(product, [row.text for row in rows])
+                return
+            except (AssertionError, WebDriverException) as e:
+                if time.time() - start_time > MAX_WAIT:
+                    raise e
+                time.sleep(0.2)
 
     def setUp(self):
         self.driver = webdriver.Firefox()
@@ -42,9 +53,7 @@ class ResourcesPage(LiveServerTestCase):
         product_input.send_keys("Pomidory Krojone")
         product_input.send_keys(Keys.ENTER)
 
-        time.sleep(1)
-
-        self.check_for_row_in_products_table("Pomidory Krojone")
+        self.wait_for_row_in_products_table("Pomidory Krojone")
 
         product_input = self.driver.find_element_by_id("id_input_product")
         self.assertEqual(
@@ -54,7 +63,5 @@ class ResourcesPage(LiveServerTestCase):
         product_input.send_keys("Banan")
         product_input.send_keys(Keys.ENTER)
 
-        time.sleep(1)
-
-        self.check_for_row_in_products_table("Pomidory Krojone")
-        self.check_for_row_in_products_table("Banan")
+        self.wait_for_row_in_products_table("Pomidory Krojone")
+        self.wait_for_row_in_products_table("Banan")
