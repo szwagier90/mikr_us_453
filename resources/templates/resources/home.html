@@ -1,9 +1,8 @@
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Produkty</title>
-</head>
-<body>
+{% extends 'mysite/base.html' %}
+
+{% block title %}Produkty{% endblock %}
+
+{% block body %}
     <h1>Produkty</h1>
     <form method="POST">
         {% csrf_token %}
@@ -19,5 +18,4 @@
         </tr>
         {% endfor %}
     </table>
-</body>
-</html>
+{% endblock %}

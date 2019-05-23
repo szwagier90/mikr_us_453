@@ -1,12 +1,10 @@
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>Szwagier Mikrus Server</title>
-</head>
-<body>
+{% extends 'mysite/base.html' %}
+
+{% block title %}Szwagier Mikrus Server{% endblock %}
+
+{% block body %}
 	<h1>Szwagier Mikrus Server</h1>
 	<h3>Developerska (testowa) wersja serwisu: <a href="http://srv02.mikr.us:20453" id="id_dev_srv_link">MIKRUS</a></h3>
 	<br />
 	<a href="resources" id="id_resources_home">Produkty</a>
-</body>
-</html>
+{% endblock %}
