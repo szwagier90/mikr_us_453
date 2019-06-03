@@ -47,6 +47,21 @@ class ResourcesPage(unittest.TestCase):
 
         self.check_for_row_in_products_table("Pomidory Krojone")
 
+    def test_(self):
+        self.driver.get(self.localServer + '/resources/')
+        self.assertIn('Produkty', self.driver.title)
+
+        login_page_link = self.driver.find_element_by_id("id_login_link")
+        login_page_link.click()
+
+        self.assertIn("Login", self.driver.title)
+
+        login_input = self.driver.find_element_by_id("id_login_form")
+        username_input = login_input.find_element_by_name("username")
+        self.assertEqual('text', username_input.get_attribute('type'))
+        password_input = login_input.find_element_by_name("password")
+        self.assertEqual('password', password_input.get_attribute('type'))
+
 
 if __name__ == '__main__':
     unittest.main()
