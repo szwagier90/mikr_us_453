@@ -42,19 +42,41 @@ class ResourcesPage(TestCase):
         self.assertIn('Pomidor', response.content.decode())
         self.assertIn('Chleb', response.content.decode())
 
+    def test_show_product_quantity_and_pieces(self):
+        Product.objects.create(
+            name='Chleb',
+            quantity='80 g',
+            pieces=2,
+        )
+
+        response = self.client.get('/resources/')
+
+        self.assertIn('Chleb', response.content.decode())
+        self.assertIn('80 g', response.content.decode())
+        self.assertIn('2', response.content.decode())
+
 
 class ProductModelTest(TestCase):
     def test_saving_and_retrieving_products(self):
         first_product = Product()
         first_product.name = 'Banan'
+        first_product.quantity = '120 g'
+        first_product.pieces = 3
         first_product.save()
 
         second_product = Product()
         second_product.name = 'Kiwi'
+        second_product.quantity = '80 g'
+        second_product.pieces = 1
         second_product.save()
 
         saved_products = Product.objects.all()
         self.assertEqual(2, saved_products.count())
 
         self.assertEqual('Banan', saved_products[0].name)
+        self.assertEqual('120 g', saved_products[0].quantity)
+        self.assertEqual(3, saved_products[0].pieces)
+
         self.assertEqual('Kiwi', saved_products[1].name)
+        self.assertEqual('80 g', saved_products[1].quantity)
+        self.assertEqual(1, saved_products[1].pieces)
