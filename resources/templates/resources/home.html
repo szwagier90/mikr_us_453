@@ -7,14 +7,21 @@
     <form method="POST">
         {% csrf_token %}
         <input name="product" id="id_input_product" placeholder="Wpisz nazwę produktu">
+        <input name="quantity" id="id_input_quantity" placeholder="Wpisz pojemność">
+        <input name="pieces" id="id_input_pieces" placeholder="Wpisz ilość">
+        <button id="id_input_submit" type="submit">Dodaj</button>
     </form>
     <table id="id_products_table">
         <tr>
             <th>Produkty</th>
+            <th>Waga</th>
+            <th>Liczba</th>
         </tr>
         {% for p in products %}
         <tr>
             <td>{{ p.name }}</td>
+            <td>{{ p.quantity }}</td>
+            <td>{{ p.pieces }}</td>
         </tr>
         {% endfor %}
     </table>
