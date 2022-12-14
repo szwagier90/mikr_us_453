@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Szwagier
+mysite/mysite_uwsgi.ini
+mysite/uwsgi_params
