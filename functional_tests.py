@@ -1,9 +1,14 @@
 import unittest
+
 from selenium import webdriver
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options
 
 class ServerPage(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        firefox_options = Options()
+        firefox_options.add_argument("--headless")
+        self.driver = webdriver.Firefox(options=firefox_options)
         self.localServer = 'http://127.0.0.1:8000'
 
     def tearDown(self):
