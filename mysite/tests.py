@@ -9,7 +9,4 @@ class ServerPage(TestCase):
 
     def test_index_returns_correct_html(self):
         response = self.client.get('/')
-        html = response.content.decode('utf8')
-
-        expected_content = render_to_string('mysite/index.html')
-        self.assertEqual(html, expected_content)
+        self.assertTemplateUsed(response, "mysite/index.html")
