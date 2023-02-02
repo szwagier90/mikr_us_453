@@ -37,4 +37,7 @@ class TasksPage(LiveServerTestCase):
         tasks_page_link = self.driver.find_element_by_id("id_tasks_home")
         self.assertEqual("Zadania", tasks_page_link.text)
 
+        tasks_page_link.click()
+        self.assertIn('Task management site', self.driver.title)
+
         self.fail('Finish the test!')
