@@ -41,4 +41,7 @@ class TasksPage(LiveServerTestCase):
         tasks_page_link.click()
         self.assertIn('Task management site', self.driver.title)
 
+        header_text = self.driver.find_element(By.TAG_NAME, 'h1').text
+        self.assertIn("Task", header_text)
+
         self.fail('Finish the test!')
