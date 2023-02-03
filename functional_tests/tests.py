@@ -44,4 +44,10 @@ class TasksPage(LiveServerTestCase):
         header_text = self.driver.find_element(By.TAG_NAME, 'h1').text
         self.assertIn("Task", header_text)
 
+        taskbox = self.driver.find_element(By.ID, 'id_new_task')
+        self.assertEqual(
+            taskbox.get_attribute('placeholder'),
+            'New task: '
+        )
+
         self.fail('Finish the test!')
