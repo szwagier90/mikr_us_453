@@ -2,8 +2,12 @@ from django.test import LiveServerTestCase
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
+
+import time
+
 
 class ServerPage(LiveServerTestCase):
     def setUp(self):
@@ -49,5 +53,13 @@ class TasksPage(LiveServerTestCase):
             taskbox.get_attribute('placeholder'),
             'New task: '
         )
+
+        taskbox.send_keys('Order contact lenses')
+        taskbox.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        table = self.driver.find_element(By.ID, 'id_task_table')
+        rows = table.find_elements(By.TAG_NAME, 'tr')
+        self.assertIn('Order contact lenses', [row.text for row in rows])
 
         self.fail('Finish the test!')
