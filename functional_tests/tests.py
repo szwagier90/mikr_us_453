@@ -58,8 +58,14 @@ class TasksPage(LiveServerTestCase):
         taskbox.send_keys(Keys.ENTER)
         time.sleep(1)
 
+        taskbox = self.driver.find_element(By.ID, 'id_new_task')
+        taskbox.send_keys('Visit eye doctor')
+        taskbox.send_keys(Keys.ENTER)
+        time.sleep(1)
+
         table = self.driver.find_element(By.ID, 'id_task_table')
         rows = table.find_elements(By.TAG_NAME, 'tr')
         self.assertIn('Order contact lenses', [row.text for row in rows])
+        self.assertIn('Visit eye doctor', [row.text for row in rows])
 
         self.fail('Finish the test!')
