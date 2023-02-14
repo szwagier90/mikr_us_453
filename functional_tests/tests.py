@@ -35,6 +35,11 @@ class TasksPage(LiveServerTestCase):
     def tearDown(self):
         self.driver.quit()
 
+    def check_for_row_in_task_table(self, row_text):
+        table = self.driver.find_element(By.ID, 'id_task_table')
+        rows = table.find_elements(By.TAG_NAME, 'tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_home_page(self):
         self.driver.get(self.live_server_url)
         self.assertIn('Szwagier Mikrus Server', self.driver.title)
@@ -63,9 +68,7 @@ class TasksPage(LiveServerTestCase):
         taskbox.send_keys(Keys.ENTER)
         time.sleep(1)
 
-        table = self.driver.find_element(By.ID, 'id_task_table')
-        rows = table.find_elements(By.TAG_NAME, 'tr')
-        self.assertIn('Order contact lenses', [row.text for row in rows])
-        self.assertIn('Visit eye doctor', [row.text for row in rows])
+        self.check_for_row_in_task_table('Order contact lenses')
+        self.check_for_row_in_task_table('Visit eye doctor')
 
         self.fail('Finish the test!')
