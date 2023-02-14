@@ -1,12 +1,15 @@
 from django.test import LiveServerTestCase
 
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
 
 import time
+
+MAX_WAIT = 10
 
 
 class ServerPage(LiveServerTestCase):
@@ -35,10 +38,18 @@ class TasksPage(LiveServerTestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def check_for_row_in_task_table(self, row_text):
-        table = self.driver.find_element(By.ID, 'id_task_table')
-        rows = table.find_elements(By.TAG_NAME, 'tr')
-        self.assertIn(row_text, [row.text for row in rows])
+    def wait_for_row_in_task_table(self, row_text):
+        start_time = time.time()
+        while True:
+            try:
+                table = self.driver.find_element(By.ID, 'id_task_table')
+                rows = table.find_elements(By.TAG_NAME, 'tr')
+                self.assertIn(row_text, [row.text for row in rows])
+                return
+            except (AssertionError, WebDriverException) as e:
+                if time.time() - start_time > MAX_WAIT:
+                    raise e
+                time.sleep(0.5)
 
     def test_home_page(self):
         self.driver.get(self.live_server_url)
@@ -68,7 +79,7 @@ class TasksPage(LiveServerTestCase):
         taskbox.send_keys(Keys.ENTER)
         time.sleep(1)
 
-        self.check_for_row_in_task_table('Order contact lenses')
-        self.check_for_row_in_task_table('Visit eye doctor')
+        self.wait_for_row_in_task_table('Order contact lenses')
+        self.wait_for_row_in_task_table('Visit eye doctor')
 
         self.fail('Finish the test!')
