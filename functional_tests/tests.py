@@ -31,9 +31,9 @@ class ServerPage(LiveServerTestCase):
 
 class TasksPage(LiveServerTestCase):
     def setUp(self):
-        firefox_options = Options()
-        firefox_options.add_argument("--headless")
-        self.driver = webdriver.Firefox(options=firefox_options)
+        self.firefox_options = Options()
+        self.firefox_options.add_argument("--headless")
+        self.driver = webdriver.Firefox(options=self.firefox_options)
 
     def tearDown(self):
         self.driver.quit()
@@ -82,4 +82,33 @@ class TasksPage(LiveServerTestCase):
         self.wait_for_row_in_task_table('Order contact lenses')
         self.wait_for_row_in_task_table('Visit eye doctor')
 
-        self.fail('Finish the test!')
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        self.driver.get(self.live_server_url+'/tasks')
+        taskbox = self.driver.find_element(By.ID, 'id_new_task')
+        taskbox.send_keys('Order contact lenses')
+        taskbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_task_table('Order contact lenses')
+
+        first_task_list_url = self.driver.current_url
+        self.assertRegex(first_task_list_url, '/tasks/.+')
+
+        self.driver.quit()
+        self.driver = webdriver.Firefox(options=self.firefox_options)
+
+        self.driver.get(self.live_server_url+'/tasks')
+        page_text = self.driver.find_element(By.TAG_NAME, 'body').text
+        self.assertNotIn('Order contact lenses', page_text)
+        self.assertNotIn('Visit eye doctor', page_text)
+
+        taskbox = self.driver.find_element(By.ID, 'id_new_task')
+        taskbox.send_keys('Check engine')
+        taskbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_task_table('Order contact lenses')
+
+        second_task_list_url = self.driver.current_url
+        self.assertRegex(second_task_list_url, '/tasks/.+')
+        self.assertNotEqual(first_task_list_url, second_task_list_url)
+
+        page_text = self.driver.find_element(By.TAG_NAME, 'body').text
+        self.assertNotIn('Order contact lenses', page_text)
+        self.assertIn('Check engine', page_text)
